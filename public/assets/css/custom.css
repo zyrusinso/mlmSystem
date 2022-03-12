@@ -1,0 +1,24 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) { 
+    .main-header{
+        height: 80px;
+    }
+    .navbar-burger_btn {
+        align-items: flex-end;
+    }
+    .search_group{
+        display: none;
+    }
+    .content-header{
+        display: none;
+    }
+    .nav_hide_xs{
+        display: none;
+    }
+}
+
