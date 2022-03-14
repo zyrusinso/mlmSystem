@@ -22,7 +22,7 @@ class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             'full_name' => ['required', 'string', 'max:255', 'unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'cp_num' => ['required', 'numeric'],
             // 'activation_code' => ['required', 'numeric'],
             'endorsers_id' => ['required', 'string', 'exists:users,endorsers_id'],
@@ -38,7 +38,7 @@ class CreateNewUser implements CreatesNewUsers
         return User::create([
             'full_name' => $input['full_name'],
             'email' => $input['email'],
-            'password' => Hash::make("1234"),
+            'password' => Hash::make("wlc_pass#1234"),
             'cp_num' => $input['cp_num'],
             // 'activation_code' => $input['activation_code'],
             'endorsers_id' => $UniqueEndorsersID,

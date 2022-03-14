@@ -3,11 +3,11 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use App\Models\User;
+use App\Models\UserRole;
 use Livewire\WithPagination;
 use Illuminate\Validation\Rule;
 
-class TeamComponent extends Component
+class UserRoles extends Component
 {
     use WithPagination;
     public $modalFormVisible = false;
@@ -22,7 +22,7 @@ class TeamComponent extends Component
     }
 
     public function loadModel(){
-        $data = User::where('id', $this->modelId)->first();
+        $data = UserRole::where('id', $this->modelId)->first();
         //Assign The Variable Here
     }
     
@@ -35,23 +35,23 @@ class TeamComponent extends Component
 
     public function create(){
         $this->validate();
-        User::create($this->modelData());
+        UserRole::create($this->modelData());
         $this->modalFormVisible = false;
         $this->reset();
     }
     
     public function read(){
-        return User::where('referred_by', auth()->user()->endorsers_id)->paginate(5);
+        return UserRole::paginate(5);
     }
 
     public function update(){
         $this->validate();
-        User::where('id', $this->modelId)->update($this->modelData());
+        UserRole::where('id', $this->modelId)->update($this->modelData());
         $this->modalFormVisible = false;
     }
 
     public function delete(){
-        User::where('id', $this->modelId)->delete();
+        UserRole::where('id', $this->modelId)->delete();
         $this->modalConfirmDeleteVisible = false;
     }
 
@@ -76,8 +76,8 @@ class TeamComponent extends Component
 
     public function render()
     {
-        return view('livewire.team-component', [
+        return view('livewire.user-roles', [
             'data'=> $this->read()
-        ])->layout('layouts.base');
+        ]);
     }
 }

@@ -8,6 +8,7 @@ if(!function_exists('defaultUserAccessRole')){
                 // 'store'
             ],
             'admin' => [
+                'dashboard',
                 'user-permissions',
             ]
         ];

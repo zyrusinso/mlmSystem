@@ -32,6 +32,11 @@
 
 <body class="hold-transition" >
     <div class="wrapper">
+
+        <!-- Preloader -->
+        <div class="preloader flex-column justify-content-center align-items-center">
+            <img class="animation__shake" src="{{ asset('img/WLC_REGFORM_LOGO.png') }}" alt="WLCLogo" width="200">
+        </div>
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
             <ul class="navbar-nav nav_hide_xs">
@@ -48,9 +53,9 @@
                 </li>
             </ul>
 
-            <ul class="navbar-nav d-block d-sm-none">
+            <ul class="navbar-nav d-block d-md-none">
                 <li class="nav-item burger_btn">
-                    <h1>Logo</h1>                    
+                    <img src="{{ asset('img/WLC_REGFORM_LOGO.png') }}" alt="AdminLTE Logo" class="brand-image" style="width: 100px">
                 </li>
             </ul>
             
@@ -66,10 +71,9 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4 sidebar-no-expand">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link d-flex justify-content-center" style="text-decoration: none !important">
-                <!-- <img src="{{ asset('assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
-                    class="brand-image imzxg-circle elevation-3" style="opacity: .8"> -->
-                <span class="brand-text font-weight-light">Logo</span>
+            <a href="/" class="d-flex justify-content-center" style="text-decoration: none !important">
+                <img src="{{ asset('img/WLC_LOGO_MAIN.png') }}" alt="WLC Logo"
+                    class="" style="width: 175px">
             </a>
 
             <!-- Sidebar -->
@@ -149,7 +153,7 @@
 
                         <!-- Endorsers Code -->
                         <li class="nav-item mt-3">
-                            <span class="text-white">Referral ID</span>
+                            <span class="text-white">ID</span>
                             <div class="input-group">
                                 <input class="form-control" id="endorsersId" type="text" readonly value="{{ auth()->user()->endorsers_id }}">
                                 <button class="btn btn-sm btn-primary " id="copyBtnID">

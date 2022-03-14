@@ -63,7 +63,8 @@ class User extends Authenticatable
 
     public static function userRoleList(){
         return [
-            'admin' => 'Admin',
+            'superadmin' => 'Super Admin',
+            'admin' => 'Company',
             'product_endorsers' => 'Reseller',
             'business_endorsers' => 'Business Endorser',
             'user' => 'User',

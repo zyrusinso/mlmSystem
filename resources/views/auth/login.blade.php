@@ -21,9 +21,9 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="mb-3">
-                            <x-jet-label value="{{ __('Email') }}" />
+                            <x-jet-label value="{{ __('Email or ID') }}" />
 
-                            <x-jet-input class="{{ $errors->has('email') ? 'is-invalid' : '' }}" type="email"
+                            <x-jet-input class="{{ $errors->has('email') ? 'is-invalid' : '' }}" type="text"
                                         name="email" :value="old('email')" required />
                             <x-jet-input-error for="email"></x-jet-input-error>
                         </div>

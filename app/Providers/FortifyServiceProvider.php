@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -31,6 +33,17 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(Request $request)
     {
+        Fortify::authenticateUsing(function(Request $request){
+            $user = User::where('email', $request->email)
+            ->orWhere('endorsers_id', $request->email) //$request->email is Login Form field
+            ->first();
+
+            if ($user &&
+                Hash::check($request->password, $user->password)) {
+                return $user;
+            }
+        });
+
         Fortify::registerView(function (Request $request) {
             session()->forget('referrer');
             if ($request->has('ref')) {

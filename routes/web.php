@@ -22,9 +22,11 @@ Route::get('/', function () {
     return redirect(route('login'));
 });
 
-Route::get('/dashboard', HomeComponent::class)->name('dashboard');
-Route::get('/team', TeamComponent::class)->name('team');
-Route::get('/transactions', TransactionComponent::class)->name('transactions');
-Route::get('/user-permissions', UserPermissions::class)->name('user-permissions');
-Route::get('/rewards', RewardComponent::class)->name('rewards');
-Route::get('/store', StoreComponent::class)->name('store');
+Route::middleware(['auth', 'accessrole'])->group(function () {
+    Route::get('/dashboard', HomeComponent::class)->name('dashboard');
+    Route::get('/team', TeamComponent::class)->name('team');
+    Route::get('/transactions', TransactionComponent::class)->name('transactions');
+    Route::get('/user-permissions', UserPermissions::class)->name('user-permissions');
+    Route::get('/rewards', RewardComponent::class)->name('rewards');
+    Route::get('/store', StoreComponent::class)->name('store');
+});
