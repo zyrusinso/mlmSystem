@@ -10,7 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasFactory;
@@ -62,12 +62,32 @@ class User extends Authenticatable
     ];
 
     public static function userRoleList(){
+        $data = [];
+        $roles = UserRole::all();
+
+        foreach($roles as $item){
+            $data += [$item->role => $item->name];
+        }
+
+        return $data;
+    }
+    
+    public static function userRoleRedirect($userRole){
+        $role = UserRole::where('role', $userRole)->first();
+
+        return $role->redirect_url;
+    }
+
+    // Temporarily hardcoded
+    public static function routeNameList(){
         return [
-            'superadmin' => 'Super Admin',
-            'admin' => 'Company',
-            'product_endorsers' => 'Reseller',
-            'business_endorsers' => 'Business Endorser',
-            'user' => 'User',
+            'dashboard' => 'Dashboard',
+            'team' => 'Team',
+            'transactions' => 'Transactions',
+            'user-permissions' => 'User Permissions',
+            'rewards' => 'Rewards',
+            'store' => 'Store',
+            'roles' => 'Roles',
         ];
     }
 }

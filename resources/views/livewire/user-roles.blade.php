@@ -1,5 +1,6 @@
 <div>
-    @include('content-header', [])
+    @include('content-header', ['headerTitle' => "User Roles"])
+    
     <div class="card">
         <!-- /.card-header -->
         <div class="card-body">
@@ -11,12 +12,12 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <table id="example1" class="table table-bordered table-striped dataTable dtr-inline table-responsive-sm">
+                        <table id="example1" class="table table-bordered table-striped dataTable table-fixed table-responsive-sm">
                             <thead>
                                 <tr>
-                                    <th>Column1</th>
-                                    <th>Column2</th>
-                                    <th>Column3</th>
+                                    <th>Role</th>
+                                    <th>Role Name</th>
+                                    <th>Redirect URL</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -24,9 +25,9 @@
                             @if ($data->count())
                                 @foreach ($data as $item)
                                     <tr>
-                                        <th>Record1</th>
-                                        <td>Record2</td>
-                                        <td>Record3</td>
+                                        <th>{{ $item->role }}</th>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->redirect_url_name }}</td>
                                         <td class="text-center text-sm">
                                             <button class="btn btn-dark btn-sm" wire:click="updateShowModal({{ $item->id }})">
                                                 Update
@@ -57,15 +58,35 @@
         <!-- Create & Update Modal -->
         <x-jet-dialog-modal wire:model="modalFormVisible">
             <x-slot name="title">
-                {{ __('Title') }}
+                {{ __('User Roles') }}
             </x-slot>
 
             <x-slot name="content">
                 <div class="mb-3">
-                    <x-jet-label for="" value="{{ __('Example') }}" />
-                    <x-jet-input id="" type="text" class="{{ $errors->has('') ? 'is-invalid' : '' }}"
-                                 wire:model="" autofocus />
-                    <x-jet-input-error for="" />
+                    <x-jet-label for="role" value="{{ __('Role') }}" />
+                    <x-jet-input id="role" type="text" class="{{ $errors->has('role') ? 'is-invalid' : '' }}"
+                                 wire:model="role" autofocus />
+                    <x-jet-input-error for="role" />
+                </div>
+
+                <div class="mb-3">
+                    <x-jet-label for="name" value="{{ __('Role Name') }}" />
+                    <x-jet-input id="name" type="text" class="{{ $errors->has('name') ? 'is-invalid' : '' }}"
+                                 wire:model="name" autofocus />
+                    <x-jet-input-error for="name" />
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label>Redirect URL</label><span class="" style="font-size: 11px !important;">(redirect url after login)</span>
+                        <select wire:model="redirectUrl" class="form-control">
+                            <option>-- Select a URL --</option>
+                            @foreach(App\Models\User::routeNameList() as $key => $value)
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
+                        </select>
+                        @error('redirectUrl') <span class="error" style="color: red">{{ $message }}</span> @enderror
+                    </div>
                 </div>
             </x-slot>
 

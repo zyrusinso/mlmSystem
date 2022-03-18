@@ -1,12 +1,12 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+
         </x-slot>
 
         <div class="card-body">
             <div class="mb-3 small text-muted">
-                {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
+                {{ __('Thanks for signing up! Before we continue, you need to take the last step, make your unique Password!') }}
             </div>
 
             @if (session('status') == 'verification-link-sent')
@@ -29,7 +29,7 @@
                 <form method="POST" action="/logout">
                     @csrf
 
-                    <button type="submit" class="btn btn-link">
+                    <button type="submit" class="btn btn-danger">
                         {{ __('Log Out') }}
                     </button>
                 </form>

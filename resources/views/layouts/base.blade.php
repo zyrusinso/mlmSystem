@@ -81,10 +81,10 @@
                 <div class="card-body box-profile">
                     <div class="text-center">
                         <img class="profile-user-img img-fluid img-circle"
-                            src="{{ asset('assets/dist/img/user4-128x128.jpg') }}" alt="User profile picture">
+                            src="{{ asset('img/defaultProfile.jpg') }}" alt="User profile picture">
                     </div>
-                    <h3 class="profile-username text-center text-white">Nina Mcintire</h3>
-                    <p class="text-muted text-center">Software Engineer</p>
+                    <h3 class="profile-username text-center text-white">{{ auth()->user()->full_name }}</h3>
+                    <p class="text-center" style="color: #c2c7d0">{{ \App\Models\User::userRoleList()[auth()->user()->role] }}</p>
                     <div class="d-flex">
                         <a href="#" class="nav-link" data-widget="control-sidebar">
                             <i class="fas fa-user"></i>
@@ -147,6 +147,27 @@
                                 <a href="{{ route('store') }}" class="nav-link {{ request()->routeIs('store')? 'active': '' }}">
                                     <i class="fas fa-store-alt nav-icon"></i>
                                     <p>Store</p>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if (\App\Models\UserPermission::isRoleHasRightToAccess(auth()->user()->role, 'user-permissions') || \App\Models\UserPermission::isRoleHasRightToAccess(auth()->user()->role, 'roles'))
+                            <li class="nav-header">Users</li>
+                        @endif
+                        @if (\App\Models\UserPermission::isRoleHasRightToAccess(auth()->user()->role, 'roles'))
+                            <li class="nav-item">
+                                <a href="{{ route('roles') }}" class="nav-link {{ request()->routeIs('roles')? 'active': '' }}">
+                                    <i class="fas fa-user nav-icon"></i>
+                                    <p>User Roles</p>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if (\App\Models\UserPermission::isRoleHasRightToAccess(auth()->user()->role, 'user-permissions'))
+                            <li class="nav-item">
+                                <a href="{{ route('user-permissions') }}" class="nav-link {{ request()->routeIs('user-permissions')? 'active': '' }}">
+                                    <i class="fas fa-user-tie nav-icon"></i>
+                                    <p>User Permissions</p>
                                 </a>
                             </li>
                         @endif

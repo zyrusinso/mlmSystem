@@ -3,9 +3,11 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use App\Models\UserPermission;
 use Livewire\WithPagination;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
+use App\Models\UserPermission;
+use App\Models\User;
 
 class UserPermissions extends Component
 {
@@ -37,7 +39,8 @@ class UserPermissions extends Component
     public function modelData(){
         return [
             'role' => $this->role,
-            'route_name' => $this->routeName, 
+            'route_url' => $this->routeName, 
+            'route_name' => User::routeNameList()[$this->routeName], 
         ];
     }
 
@@ -51,7 +54,7 @@ class UserPermissions extends Component
     }
     
     public function read(){
-        return UserPermission::all();
+        return UserPermission::orderBy('role')->paginate(15);
     }
 
     public function update(){

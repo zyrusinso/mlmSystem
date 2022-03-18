@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\User;
 use Livewire\WithPagination;
 use Illuminate\Validation\Rule;
+use Vinkla\Hashids\Facades\Hashids;
 
 class TeamComponent extends Component
 {
@@ -72,6 +73,23 @@ class TeamComponent extends Component
     public function deleteShowModal($id){
         $this->modelId = $id;
         $this->modalConfirmDeleteVisible = true;
+    }
+
+    // Product Endorsers
+    public function PEdata($id){
+        $data = User::where('referred_by', $id)->get();
+        return $data;
+    }
+
+    // Business Endorsers
+    public function BEdata($id){
+        $data = User::where('referred_by', $id)->get();
+        return $data;
+    }
+
+    public function TeamView($id){
+        $encryptedId = Hashids::encode($id);
+        return redirect(route('team.index', $encryptedId));
     }
 
     public function render()

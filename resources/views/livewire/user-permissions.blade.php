@@ -58,7 +58,7 @@
         <!-- Create & Update Modal -->
         <x-jet-dialog-modal wire:model="modalFormVisible">
             <x-slot name="title">
-                {{ __('Title') }}
+                {{ __('User Permissions') }}
             </x-slot>
 
             <x-slot name="content">

@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Test;
+use App\Models\User;
 
 class HomeComponent extends Component
 {
@@ -12,7 +12,7 @@ class HomeComponent extends Component
     protected $paginationTheme = 'bootstrap';
 
     public function read(){
-        return Test::paginate(3);
+        return User::where('referred_by', auth()->user()->endorsers_id)->paginate(10);
     }
 
     public function mount(){
@@ -20,6 +20,19 @@ class HomeComponent extends Component
         if($userRole == 'user'){
             return redirect(route('transactions'));
         }
+    }
+
+    
+    // Product Endorsers
+    public function PEdata($id){
+        $data = User::where('referred_by', $id)->get();
+        return $data;
+    }
+
+    // Business Endorsers
+    public function BEdata($id){
+        $data = User::where('referred_by', $id)->get();
+        return $data;
     }
 
     public function render()

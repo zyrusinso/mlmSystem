@@ -22,14 +22,15 @@ class UserPermission extends Model
             'transactions',
             'user-permissions',
             'rewards',
-            'store'
+            'store',
+            'roles'
         ];
     }
 
     public static function isRoleHasRightToAccess($userRole, $routeName){
         try{
             $model = static::where('role', $userRole)
-                    ->where('route_name', $routeName)
+                    ->where('route_url', $routeName)
                     ->first();
             
             return $model ? true : false;

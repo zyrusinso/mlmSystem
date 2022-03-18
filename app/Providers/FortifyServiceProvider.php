@@ -33,6 +33,10 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(Request $request)
     {
+        Fortify::verifyEmailView(function () {
+            return view('auth.verify-email');
+        });
+        
         Fortify::authenticateUsing(function(Request $request){
             $user = User::where('email', $request->email)
             ->orWhere('endorsers_id', $request->email) //$request->email is Login Form field
@@ -51,6 +55,10 @@ class FortifyServiceProvider extends ServiceProvider
             }
 
             return view('auth.register');
+        });
+
+        Fortify::requestPasswordResetLinkView(function(){
+            return view('auth.forgot-password');
         });
 
         Fortify::createUsersUsing(CreateNewUser::class);

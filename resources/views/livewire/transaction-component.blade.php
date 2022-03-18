@@ -24,7 +24,8 @@
                                 </tr>
                             </thead>
                             <tbody id="tableList">
-                            @foreach ($data as $item)
+                            @if ($data->count())
+                                @foreach ($data as $item)
                                     <tr>
                                         <th>{{ $item->id }}</th>
                                         <td>{{ $item->name }}</td>
@@ -41,6 +42,11 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                            @else
+                                <tr>
+                                    <td class="text-center" colspan="10">No Transaction Found</td>
+                                </tr>
+                            @endif
                             </tbody>
                         </table>
                     </div>

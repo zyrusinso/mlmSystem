@@ -1,5 +1,5 @@
 <div>
-    <x-jet-dialog-modal class="modal-dialog-centered" wire:model="modalFormVisible">
+    <x-jet-dialog-modal class="modal-dialog-centered" wire:model="ModalFormVisible">
         <x-slot name="title">
             {{ __('Activate Code') }}
         </x-slot>
@@ -14,7 +14,7 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-jet-secondary-button wire:click="$toggle('modalFormVisible')" wire:loading.attr="disabled">
+            <x-jet-secondary-button wire:click="$toggle('ModalFormVisible')" wire:loading.attr="disabled">
                 {{ __('Cancel') }}
             </x-jet-secondary-button>
 

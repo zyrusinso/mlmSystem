@@ -4,12 +4,17 @@ if(!function_exists('defaultUserAccessRole')){
     function defaultUserAccessRole(){
         return [
             'user' => [
-                'transaction',
-                // 'store'
+                'transactions',
+                'store'
             ],
-            'admin' => [
+            'super_admin' => [
                 'dashboard',
+                'team',
+                'transactions',
                 'user-permissions',
+                'rewards',
+                'store',
+                'roles'
             ]
         ];
     }

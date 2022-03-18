@@ -143,13 +143,13 @@
                 <tbody id="tableList">
                     @foreach ($data as $item)
                         <tr>
-                            <th scope="row">{{ $item->id }}</th>
-                            <td>{{ $item['name'] }}</td>
-                            <td>{{ $item['membership'] }}</td>
-                            <td>{{ $item['number'] }}</td>
-                            <td>{{ $item['pu'] }}</td>
-                            <td>{{ $item['pe'] }}</td>
-                            <td>{{ $item['be'] }}</td>
+                            <th scope="row">{{ $item->endorsers_id }}</th>
+                            <td>{{ $item->full_name }}</td>
+                            <td>{{ \App\Models\User::userRoleList()[$item->role] }}</td>
+                            <td>{{ $item->cp_num }}</td>
+                            <td></td>
+                            <td>{{ count($this->PEdata($item->endorsers_id)) }}</td>
+                            <td>{{ count($this->BEdata($item->endorsers_id)) }}</td>
                         </tr>
                     @endforeach
                         <tr>

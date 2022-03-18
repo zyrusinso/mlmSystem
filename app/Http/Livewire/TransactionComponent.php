@@ -41,6 +41,7 @@ class TransactionComponent extends Component
     //The Data for the model mapped in this component
     public function modelData(){
         return [
+            'user_id' => auth()->user()->endorsers_id,
             'name' => $this->name,
             'amount' => $this->amount,
             'product_id' => $this->product_id,
@@ -56,7 +57,7 @@ class TransactionComponent extends Component
     }
 
     public function read(){
-        return Transaction::paginate(5);
+        return Transaction::where('user_id', auth()->user()->endorsers_id)->paginate(5);
     }
 
     public function update(){

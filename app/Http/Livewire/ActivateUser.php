@@ -6,7 +6,7 @@ use Livewire\Component;
 
 class ActivateUser extends Component
 {
-    public $modalFormVisible = false;
+    public $ModalFormVisible = false;
 
     public $product_code;
     
@@ -27,7 +27,7 @@ class ActivateUser extends Component
     }
 
     public function createShowModal(){
-        $this->modalFormVisible = true;
+        $this->ModalFormVisible = true;
     }
 
     public function render()
