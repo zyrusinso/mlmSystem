@@ -23,13 +23,18 @@ class EnsureUserRoleIsAllowedToAccess
         try{
             $userRole = auth()->user()->role;
             $currentRouteName = Route::currentRouteName();
+            $userRoleRedirect = UserRole::where('role', $userRole)->first();
 
             if( UserPermission::isRoleHasRightToAccess($userRole, $currentRouteName)
-                || in_array($currentRouteName, defaultUserAccessRole()[$userRole])){
+                || $this->checkUserRoleIfExistInDefault()){
                 return $next($request);
             }else{
                 if(User::userRoleList()[$userRole]){
-                    return redirect(route(User::userRoleRedirect($userRole)));
+                    if(UserPermission::isRoleHasRightToAccess($userRole, $userRoleRedirect->redirect_url)){
+                        return redirect(route(User::userRoleRedirect($userRole)));
+                    }else{
+                        return redirect(route('home'));
+                    }
                 }else{
                     abort(403, "Anauthorized Action!");
                 }
@@ -49,5 +54,17 @@ class EnsureUserRoleIsAllowedToAccess
                 'user-permissions',
             ]
         ];
+    }
+
+    private function checkUserRoleIfExistInDefault(){
+        $data = [];
+        $currentRouteName = Route::currentRouteName();
+        $userRole = auth()->user()->role;
+
+        if(!array_key_exists($userRole, defaultUserAccessRole())){
+            return false;
+        }
+
+        return in_array($currentRouteName, defaultUserAccessRole()[$userRole]) ? true : false;
     }
 }

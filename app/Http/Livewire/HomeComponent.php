@@ -11,6 +11,8 @@ class HomeComponent extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
+    public $networkCountData = [];
+
     public function read(){
         return User::where('referred_by', auth()->user()->endorsers_id)->paginate(10);
     }
@@ -25,14 +27,44 @@ class HomeComponent extends Component
     
     // Product Endorsers
     public function PEdata($id){
-        $data = User::where('referred_by', $id)->get();
+        $data = User::where('referred_by', $id)
+                    ->where('role', 'product-endorsers')->get();
         return $data;
     }
 
     // Business Endorsers
     public function BEdata($id){
-        $data = User::where('referred_by', $id)->get();
+        $data = User::where('referred_by', $id)
+                    ->where('role', 'business-endorsers')->get();
         return $data;
+    }
+
+    // Product Users
+    public function PUdata($id){
+        $data = User::where('referred_by', $id)
+                    ->where('role', 'user')->get();
+
+        return $data;
+    }
+
+    // Network List Data
+    public function networkListData($id){
+        $networkList = User::networkList($id);
+
+        $this->networkListDataFormat($networkList);
+        
+        return $this->networkCountData;
+    }
+
+    public function networkListDataFormat($networkList){
+
+        foreach($networkList as $item){
+            array_push($this->networkCountData, $item);
+
+            if($item->children->isNotEmpty()){
+                $this->networkListDataFormat($item->children);
+            }
+        }
     }
 
     public function render()

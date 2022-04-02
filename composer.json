@@ -13,7 +13,10 @@
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.5",
-        "vinkla/hashids": "^10.0"
+        "brick/math": "*",
+        "nascent-africa/jetstrap": "^2.5",
+        "vinkla/hashids": "^10.0",
+        "ext-bcmath" : "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

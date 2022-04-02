@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class ActivateProject extends Controller
@@ -16,9 +17,20 @@ class ActivateProject extends Controller
                 'full_name' => 'Super Admin',
                 'email' => 'superadmin@gmail.com',
                 'activation_code' => 'WLC-Creator',
-                'email_verified_at' => '2022-03-17 12:00:04',
+                'email_verified_at' => now()->toDateTimeString(),
                 'password' => Hash::make('wlc_superadmin#1234'),
+                'level' => 0,
             ]);
+            UserRole::create([
+                'role' => 'user', 
+                'name'=> 'User', 
+                'redirect_url' => 
+                'transactions', 
+                'redirect_url_name' => 
+                'Transactions'
+            ]);
+
+            return "Success";
         }else{
             return "Project is already Activated";
         }

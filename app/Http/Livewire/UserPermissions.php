@@ -32,7 +32,7 @@ class UserPermissions extends Component
         
         //Assign The Variable Here
         $this->role = $data->role;
-        $this->routeName = $data->route_name;
+        $this->routeName = $data->route_url;
     }
     
     //The Data for the model mapped in this component

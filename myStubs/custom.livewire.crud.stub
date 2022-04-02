@@ -78,6 +78,6 @@ class {{}} extends Component
     {
         return view('livewire.{{}}', [
             'data'=> $this->read()
-        ]);
+        ])->layout('layouts.base');
     }
 }

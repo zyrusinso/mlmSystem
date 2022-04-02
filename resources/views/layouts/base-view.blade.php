@@ -104,7 +104,7 @@
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column nav-compact nav-child-indent" data-widget="treeview" role="menu"
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         @if (\App\Models\UserPermission::isRoleHasRightToAccess(auth()->user()->role, 'dashboard'))
                             <li class="nav-item">
@@ -147,49 +147,6 @@
                                 <a href="{{ route('store') }}" class="nav-link {{ request()->routeIs('store')? 'active': '' }}">
                                     <i class="fas fa-store-alt nav-icon"></i>
                                     <p>Store</p>
-                                </a>
-                            </li>
-                        @endif
-
-                        @if (\App\Models\UserPermission::isRoleHasRightToAccess(auth()->user()->role, 'products'))
-                            <li class="nav-header">Products</li>
-                            <li class="nav-item {{ request()->routeIs(['products', 'products-category', 'products-sub-category'])? 'menu-is-opening menu-open': '' }}">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-barcode"></i>
-                                    <p>
-                                        Product
-                                        <i class="fas fa-angle-left right"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('products') }}" class="nav-link {{ request()->routeIs('products')? 'active': '' }}">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Product List</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('products-category') }}" class="nav-link {{ request()->routeIs('products-category')? 'active': '' }}">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Product Category</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a href="{{ route('products-sub-category') }}" class="nav-link {{ request()->routeIs('products-sub-category')? 'active': '' }}">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Product Sub-Category</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
-
-                        @if (\App\Models\UserPermission::isRoleHasRightToAccess(auth()->user()->role, 'code'))
-                            <li class="nav-header">Codes</li>
-                            <li class="nav-item">
-                                <a href="{{ route('code') }}" class="nav-link {{ request()->routeIs('code')? 'active': '' }}">
-                                    <i class="fas fa-qrcode nav-icon"></i>
-                                    <p>Code List</p>
                                 </a>
                             </li>
                         @endif
@@ -241,16 +198,12 @@
             </div>
         </aside>
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <!-- Main content -->
-            <div class="container-fluid">
-                @livewire('activate-user')
-                {{ $slot }}
-            </div>
-            <!-- /.content -->
+        <!-- Main content -->
+        <div class="container-fluid">
+            @livewire('activate-user')
+            @yield('content')
         </div>
-        <!-- /.control-sidebar -->
+        <!-- /.content -->
     </div>
     <!-- ./wrapper -->
 

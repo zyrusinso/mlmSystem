@@ -89,7 +89,9 @@ class TeamComponent extends Component
 
     public function TeamView($id){
         $encryptedId = Hashids::encode($id);
-        return redirect(route('team.index', $encryptedId));
+        $user = User::where('id', $id)->first();
+        $userLvl = Hashids::encode($user->level);
+        return redirect(route('team.index', ['id' => $encryptedId, 'lvl' => $userLvl]));
     }
 
     public function render()

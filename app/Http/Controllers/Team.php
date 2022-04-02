@@ -13,7 +13,7 @@ class Team extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index($id, Request $request)
     {
         $user = User::where('id', Hashids::decode($id))->first();
         $data = User::where('referred_by', $user->endorsers_id);

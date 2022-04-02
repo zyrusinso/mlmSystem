@@ -35,6 +35,9 @@ class CreateNewUser implements CreatesNewUsers
             $UniqueEndorsersID = "WLC".now()->format('y')."-".mt_rand(100000, 999999);
         }
 
+        $registrationEndorsers = User::where('endorsers', $input['endorsers_id'])->first();
+        $endorsersLevel = $registrationEndorsers->level;
+
         return User::create([
             'full_name' => $input['full_name'],
             'email' => $input['email'],
@@ -43,6 +46,7 @@ class CreateNewUser implements CreatesNewUsers
             // 'activation_code' => $input['activation_code'],
             'endorsers_id' => $UniqueEndorsersID,
             'referred_by' => $input['endorsers_id'],
+            'level' => $endorsersLevel++,
         ]);
     }
 }

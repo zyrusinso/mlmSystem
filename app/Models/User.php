@@ -29,6 +29,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'endorsers_id',
         'referred_by',
+        'role',
+        'cp_num',
+        'level'
     ];
 
     /**
@@ -64,6 +67,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public static function userRoleList(){
         $data = [];
         $roles = UserRole::all();
+        $data = ['super_admin' => 'Super Admin'];
 
         foreach($roles as $item){
             $data += [$item->role => $item->name];
@@ -90,4 +94,43 @@ class User extends Authenticatable implements MustVerifyEmail
             'roles' => 'Roles',
         ];
     }
+
+    public static function networkList($userData){
+        $allUsers = User::get();
+        $rootUsers = $allUsers->where('endorsers_id', $userData);
+
+        self::networkListFormat($rootUsers, $allUsers);
+
+        return $rootUsers;
+    }
+
+    public static function networkListFormat($rootUsers, $allUsers){
+        foreach($rootUsers as $rootUser){
+            $rootUser->children = $allUsers->where('referred_by', $rootUser->endorsers_id);
+
+            if($rootUser->children->isNotEmpty()){
+                self::networkListFormat($rootUser->children, $allUsers);
+            }
+        }
+    }
+
+    // public static function networkListToCount($userAuth){
+    //     $networkList = self::networkList($userAuth);
+
+    //     return self::networkListToCountFormat($networkList);
+    // }
+
+    // public static function networkListToCountFormat($networkList){
+    //     $data = [];
+
+    //     foreach($networkList as $item){
+    //         $data += $item;
+
+    //         if($item->children->isNotEmpty()){
+    //             array_push($data, self::networkListToCountFormat($item->children));
+    //         }
+    //     }
+
+    //     return $data;
+    // }
 }

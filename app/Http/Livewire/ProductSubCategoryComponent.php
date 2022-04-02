@@ -3,71 +3,63 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use App\Models\Transaction;
+use App\Models\ProductSubCategory;
 use Livewire\WithPagination;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Str;
 
-class TransactionComponent extends Component
+class ProductSubCategoryComponent extends Component
 {
-    use Withpagination;
-
+    use WithPagination;
     public $modalFormVisible = false;
     public $modalConfirmDeleteVisible = false;
     public $modelId;
 
-    public $name;
-    public $amount;
-    public $product_id;
+    public $sub_cat_name;
+    public $main_category;
 
     //Validation Rules
     public function rules(){
         return [
-            'name' => 'required',
-            'amount' => ['required', 'integer'],
-            'product_id' => 'required|integer'
+            'sub_cat_name' => 'required|min:3',
+            'main_category' => 'required'
         ];
     }
 
     public function loadModel(){
-        $data = Transaction::where('id', $this->modelId)->first();
+        $data = ProductSubCategory::where('id', $this->modelId)->first();
 
         //Assign The Variable Here
-        $this->name = $data->name;
-        $this->amount = $data->amount;
-        $this->product_id = $data->product_id;
+        $this->sub_cat_name = $data->sub_cat_name;
+        $this->main_category = $data->category_id;
     }
-
+    
     //The Data for the model mapped in this component
     public function modelData(){
         return [
-            'user_id' => auth()->user()->endorsers_id,
-            'name' => $this->name,
-            'amount' => $this->amount,
-            'product_id' => $this->product_id,
-            'transaction_id' => $this->numberBetween(100000000),
+            'sub_cat_name' => $this->sub_cat_name,
+            'category_id' => $this->main_category,
         ];
     }
 
     public function create(){
         $this->validate();
-        Transaction::create($this->modelData());
+        ProductSubCategory::create($this->modelData());
         $this->modalFormVisible = false;
         $this->reset();
     }
-
+    
     public function read(){
-        return Transaction::where('user_id', auth()->user()->id)->paginate(5);
+        return ProductSubCategory::paginate(5);
     }
 
     public function update(){
         $this->validate();
-        Transaction::where('id', $this->modelId)->update($this->modelData());
+        ProductSubCategory::where('id', $this->modelId)->update($this->modelData());
         $this->modalFormVisible = false;
     }
 
     public function delete(){
-        Transaction::where('id', $this->modelId)->delete();
+        ProductSubCategory::where('id', $this->modelId)->delete();
         $this->modalConfirmDeleteVisible = false;
     }
 
@@ -90,18 +82,10 @@ class TransactionComponent extends Component
         $this->modalConfirmDeleteVisible = true;
     }
 
-    public function numberBetween(int $min = 0, int $max = 2147483647): int
-    {
-        $int1 = $min < $max ? $min : $max;
-        $int2 = $min < $max ? $max : $min;
-
-        return mt_rand($int1, $int2);
-    }
-
     public function render()
     {
-        return view('livewire.transaction-component', [
-            'data' => $this->read(),
+        return view('livewire.product-sub-category-component', [
+            'data'=> $this->read()
         ])->layout('layouts.base');
     }
 }

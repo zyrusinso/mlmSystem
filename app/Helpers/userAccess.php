@@ -14,8 +14,9 @@ if(!function_exists('defaultUserAccessRole')){
                 'user-permissions',
                 'rewards',
                 'store',
-                'roles'
-            ]
+                'roles',
+                'code'
+            ],
         ];
     }
 }

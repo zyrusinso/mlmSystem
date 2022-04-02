@@ -2,12 +2,16 @@
 
 namespace App\Http\Livewire;
 
+use Illuminate\Http\Request;
 use Livewire\Component;
 use Vinkla\Hashids\Facades\Hashids;
+use Livewire\WithPagination;
 use App\Models\User;
 
 class TeamViewComponent extends Component
 {
+    use WithPagination;
+
     public $user;
     public $data;
     public $TitleHeader;
@@ -16,9 +20,11 @@ class TeamViewComponent extends Component
         
     }
 
-    public function mount($id){
+    public function mount($id, Request $request){
+        session()->forget('showLimit');
         $user = User::where('id', Hashids::decode($id))->first();
-        
+        $userLevel = Hashids::decode($request->get('lvl'));
+
         if($user){
             $data = User::where('referred_by', $user->endorsers_id)->get();
 
@@ -46,7 +52,15 @@ class TeamViewComponent extends Component
 
     public function TeamView($id){
         $encryptedId = Hashids::encode($id);
-        return redirect(route('team.index', $encryptedId));
+        $user = User::where('id', $id)->first();
+        $userLvl = Hashids::encode($user->level);
+
+        if($user->level > auth()->user()->level+5){
+            session()->flash('showLimit', 'You cant view more');
+            return;
+        }
+        
+        return redirect(route('team.index', ['id' => $encryptedId, 'lvl' => $userLvl]));
     }
 
     public function render()

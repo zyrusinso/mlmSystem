@@ -24,16 +24,14 @@
                             <x-jet-label value="{{ __('Email or ID') }}" />
 
                             <x-jet-input class="{{ $errors->has('email') ? 'is-invalid' : '' }}" type="text"
-                                        name="email" :value="old('email')" required />
-                            <x-jet-input-error for="email"></x-jet-input-error>
+                                        name="email" :value="old('email')" />
                         </div>
 
                         <div class="mb-3">
                             <x-jet-label value="{{ __('Password') }}" />
 
                             <x-jet-input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" type="password"
-                                        name="password" required autocomplete="current-password" />
-                            <x-jet-input-error for="password"></x-jet-input-error>
+                                        name="password" autocomplete="current-password" />
                         </div>
 
                         <div class="mb-3">

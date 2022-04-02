@@ -2,6 +2,14 @@
     <div>
         @include('content-header', ['headerTitle' => $TitleHeader."'s".' Team'])
         <div class="card">
+            @if (session()->has('showLimit'))
+                <div>
+                    <div class="alert alert-danger text-center">
+                        {{ __('You cant view more') }}
+                    </div>
+                </div>
+            @endif
+
             <!-- /.card-header -->
             <div class="card-body">
                 <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">

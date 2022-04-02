@@ -8,7 +8,7 @@
                     <span class="info-box-icon" ><i class="fas fa-user-friends"></i></span>
                 </div>
                 <div class="info-box-content text-center">
-                    <span class="info-box-number" style="font-size: 30px">150</span>
+                    <span class="info-box-number" style="font-size: 30px">{{ count($this->networkListData(auth()->user()->endorsers_id))-1 ?? '0'}}</span>
                     <div class="progress">
                         <hr/>
                     </div>
@@ -40,7 +40,7 @@
                     <span class="info-box-icon" ><i class="fas fa-crown"></i></span>
                 </div>
                 <div class="info-box-content text-center">
-                    <span class="info-box-number" style="font-size: 30px">12,000</span>
+                    <span class="info-box-number" style="">COMING <br/>SOON</span>
                     <div class="progress">
                         <hr/>
                     </div>
@@ -73,7 +73,7 @@
             <div class="info-box bg-gradient-success">
                 <div class="info-box-content">
                     <span class="info-box-text" style="font-size: 13px">Product Users</span>
-                    <span class="info-box-number" style="font-size: 25px; ">100</span>
+                    <span class="info-box-number" style="font-size: 25px; ">{{ count($this->PUdata(auth()->user()->endorsers_id)) ?? '0' }}</span>
                     <div class="progress">
                         <hr/>
                     </div>
@@ -89,7 +89,7 @@
             <div class="info-box bg-gradient-info">
                 <div class="info-box-content">
                     <span class="info-box-text" style="font-size: 13px">Product Endorsers</span>
-                    <span class="info-box-number" style="font-size: 25px; ">10</span>
+                    <span class="info-box-number" style="font-size: 25px; ">{{ count($this->PEdata(auth()->user()->endorsers_id)) ?? '0' }}</span>
                     <div class="progress">
                         <hr/>
                     </div>
@@ -105,7 +105,7 @@
             <div class="info-box bg-gradient-success">
                 <div class="info-box-content">
                     <span class="info-box-text" style="font-size: 13px">Business Endorsers</span>
-                    <span class="info-box-number" style="font-size: 25px; ">40</span>
+                    <span class="info-box-number" style="font-size: 25px; ">{{ count($this->BEdata(auth()->user()->endorsers_id)) ?? '0' }}</span>
                     <div class="progress">
                         <hr/>
                     </div>
@@ -121,7 +121,7 @@
             <div class="info-box bg-gradient-info">
                 <div class="info-box-content text-center">
                     <span class="info-box-text">Current Rank</span>
-                    <span class="info-box-number" style="font-size: 35px">GOLD</span>
+                    <span class="info-box-number" style="font-size: 25px">COMING SOON</span>
                 </div>
             </div>
         </div>
@@ -147,9 +147,9 @@
                             <td>{{ $item->full_name }}</td>
                             <td>{{ \App\Models\User::userRoleList()[$item->role] }}</td>
                             <td>{{ $item->cp_num }}</td>
-                            <td></td>
-                            <td>{{ count($this->PEdata($item->endorsers_id)) }}</td>
-                            <td>{{ count($this->BEdata($item->endorsers_id)) }}</td>
+                            <td>{{ count($this->PUdata($item->endorsers_id)) ?? '0' }}</td>
+                            <td>{{ count($this->PEdata($item->endorsers_id)) ?? '0' }}</td>
+                            <td>{{ count($this->BEdata($item->endorsers_id)) ?? '0'}}</td>
                         </tr>
                     @endforeach
                         <tr>

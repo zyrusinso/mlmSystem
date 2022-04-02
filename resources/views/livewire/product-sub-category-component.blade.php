@@ -1,41 +1,45 @@
 <div>
-    @include('content-header', ['headerTitle' => "Transactions"])
-
+    @include('content-header', ['headerTitle' => 'Product Sub Category'])
     <div class="card">
         <!-- /.card-header -->
         <div class="card-body">
             <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                 <div class="row">
                     <div class="d-flex justify-content-end mb-2">
-                        <!-- <button class="btn btn-dark mr-3" wire:click="createShowModal">Create</button> -->
+                        <button class="btn btn-dark mr-3" wire:click="createShowModal">Create</button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <table class="table table-bordered table-striped dataTable dtr-inline table-responsive-sm">
+                        <table id="example1" class="table table-bordered table-striped dataTable dtr-inline table-responsive-sm">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Product Name</th>
-                                    <th>Amount</th>
-                                    <th>Transaction ID</th>
-                                    <th>Product ID</th>
+                                    <th>Main Category</th>
+                                    <th>Sub Category Name</th>
+                                    <th></th>
                                 </tr>
                             </thead>
-                            <tbody id="tableList">
+                            <tbody>
                             @if ($data->count())
                                 @foreach ($data as $item)
                                     <tr>
                                         <th>{{ $loop->iteration }}</th>
-                                        <td>{{ \App\Models\Product::productList()[$item->product_id] }}</td>
-                                        <td>{{ $item->amount }}</td>
-                                        <td>{{ $item->transaction_id }}</td>
-                                        <td>{{ $item->product_id }}</td>
+                                        <td>{{ \App\Models\ProductSubCategory::mainProductCategoryList()[$item->category_id] ?? '' }}</td>
+                                        <td>{{ $item->sub_cat_name ?? '' }}</td>
+                                        <td class="text-center text-sm">
+                                            <button class="btn btn-dark btn-sm" wire:click="updateShowModal({{ $item->id }})">
+                                                Update
+                                            </button>
+                                            <button class="btn btn-danger text-white btn-sm" wire:click="deleteShowModal({{ $item->id }})">
+                                                Delete
+                                            </button>
+                                        </td>
                                     </tr>
                                 @endforeach
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="10">No Transaction Found</td>
+                                    <td class="text-center" colspan="10">No Results Found</td>
                                 </tr>
                             @endif
                             </tbody>
@@ -53,27 +57,29 @@
         <!-- Create & Update Modal -->
         <x-jet-dialog-modal wire:model="modalFormVisible">
             <x-slot name="title">
-                {{ __('Transaction') }}
+                {{ __('Product Sub Category') }}
             </x-slot>
 
             <x-slot name="content">
-                <div class="mb-3">
-                    <x-jet-label for="name" value="{{ __('Name') }}" />
-                    <x-jet-input id="name" type="text" class="{{ $errors->has('name') ? 'is-invalid' : '' }}"
-                                 wire:model="name" autofocus />
-                    <x-jet-input-error for="name" />
+                <div class="form-group">
+                    <label>Select Main Category</label>
+                    <select wire:model="main_category" class="form-control">
+                        @if (count(App\Models\ProductSubCategory::mainProductCategoryList()) > 1)
+                            <option>-- Select a Main Category --</option>
+                            @foreach(App\Models\ProductSubCategory::mainProductCategoryList() as $key => $value)
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
+                        @else
+                            <option>-- You Need to Create Main Category First --</option>
+                        @endif
+                    </select>
+                    @error('main_category') <span class="error" style="color: red"">{{ $message }}</span> @enderror
                 </div>
                 <div class="mb-3">
-                    <x-jet-label for="amount" value="{{ __('Amount') }}" />
-                    <x-jet-input id="amount" type="text" class="{{ $errors->has('amount') ? 'is-invalid' : '' }}"
-                                 wire:model="amount" autofocus />
-                    <x-jet-input-error for="amount" />
-                </div>
-                <div class="mb-3">
-                    <x-jet-label for="product_id" value="{{ __('Product ID') }}" />
-                    <x-jet-input id="product_id" type="text" class="{{ $errors->has('product_id') ? 'is-invalid' : '' }}"
-                                 wire:model="product_id" autofocus />
-                    <x-jet-input-error for="product_id" />
+                    <x-jet-label for="sub_cat_name" value="{{ __('Sub Category Name') }}" />
+                    <x-jet-input id="sub_cat_name" type="text" class="{{ $errors->has('sub_cat_name') ? 'is-invalid' : '' }}"
+                                 wire:model.lazy="sub_cat_name" autofocus />
+                    <x-jet-input-error for="sub_cat_name" />
                 </div>
             </x-slot>
 
@@ -97,7 +103,7 @@
         <!-- Delete User Confirmation Modal -->
         <x-jet-dialog-modal wire:model="modalConfirmDeleteVisible">
             <x-slot name="title">
-                {{ __('Delete Transaction') }}
+                {{ __('Delete Title') }}
             </x-slot>
 
             <x-slot name="content">

@@ -1,41 +1,45 @@
 <div>
-    @include('content-header', ['headerTitle' => "Transactions"])
-
+    @include('content-header', ['headerTitle' => 'Product Category'])
     <div class="card">
         <!-- /.card-header -->
         <div class="card-body">
             <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                 <div class="row">
                     <div class="d-flex justify-content-end mb-2">
-                        <!-- <button class="btn btn-dark mr-3" wire:click="createShowModal">Create</button> -->
+                        <button class="btn btn-dark mr-3" wire:click="createShowModal">Create</button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <table class="table table-bordered table-striped dataTable dtr-inline table-responsive-sm">
+                        <table id="example1" class="table table-bordered table-striped dataTable dtr-inline table-responsive-sm">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Product Name</th>
-                                    <th>Amount</th>
-                                    <th>Transaction ID</th>
-                                    <th>Product ID</th>
+                                    <th>Category Name</th>
+                                    <th>Initial Name</th>
+                                    <th></th>
                                 </tr>
                             </thead>
-                            <tbody id="tableList">
+                            <tbody>
                             @if ($data->count())
                                 @foreach ($data as $item)
                                     <tr>
                                         <th>{{ $loop->iteration }}</th>
-                                        <td>{{ \App\Models\Product::productList()[$item->product_id] }}</td>
-                                        <td>{{ $item->amount }}</td>
-                                        <td>{{ $item->transaction_id }}</td>
-                                        <td>{{ $item->product_id }}</td>
+                                        <td>{{ $item->category_name }}</td>
+                                        <td>{{ $item->category_initial }}</td>
+                                        <td class="text-center text-sm">
+                                            <button class="btn btn-dark btn-sm" wire:click="updateShowModal({{ $item->id }})">
+                                                Update
+                                            </button>
+                                            <button class="btn btn-danger text-white btn-sm" wire:click="deleteShowModal({{ $item->id }})">
+                                                Delete
+                                            </button>
+                                        </td>
                                     </tr>
                                 @endforeach
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="10">No Transaction Found</td>
+                                    <td class="text-center" colspan="10">No Results Found</td>
                                 </tr>
                             @endif
                             </tbody>
@@ -53,27 +57,21 @@
         <!-- Create & Update Modal -->
         <x-jet-dialog-modal wire:model="modalFormVisible">
             <x-slot name="title">
-                {{ __('Transaction') }}
+                {{ __('Product Category') }}
             </x-slot>
 
             <x-slot name="content">
                 <div class="mb-3">
-                    <x-jet-label for="name" value="{{ __('Name') }}" />
-                    <x-jet-input id="name" type="text" class="{{ $errors->has('name') ? 'is-invalid' : '' }}"
-                                 wire:model="name" autofocus />
-                    <x-jet-input-error for="name" />
+                    <x-jet-label for="category_name" value="{{ __('Name') }}" />
+                    <x-jet-input id="category_name" type="text" class="{{ $errors->has('category_name') ? 'is-invalid' : '' }}"
+                                 wire:model.lazy="category_name" autofocus />
+                    <x-jet-input-error for="category_name" />
                 </div>
                 <div class="mb-3">
-                    <x-jet-label for="amount" value="{{ __('Amount') }}" />
-                    <x-jet-input id="amount" type="text" class="{{ $errors->has('amount') ? 'is-invalid' : '' }}"
-                                 wire:model="amount" autofocus />
-                    <x-jet-input-error for="amount" />
-                </div>
-                <div class="mb-3">
-                    <x-jet-label for="product_id" value="{{ __('Product ID') }}" />
-                    <x-jet-input id="product_id" type="text" class="{{ $errors->has('product_id') ? 'is-invalid' : '' }}"
-                                 wire:model="product_id" autofocus />
-                    <x-jet-input-error for="product_id" />
+                    <x-jet-label for="category_initial" value="{{ __('Initial Name') }}" /><span style="font-size: 11px !important;">(first 3 initial letters of category)</span>
+                    <x-jet-input id="category_initial" type="text" class="{{ $errors->has('category_initial') ? 'is-invalid' : '' }}"
+                                 wire:model.lazy="category_initial" autofocus maxlength="3" oninput="this.value = this.value.toUpperCase()"/>
+                    <x-jet-input-error for="category_initial" />
                 </div>
             </x-slot>
 
@@ -88,7 +86,7 @@
                     </x-jet-button>
                 @else
                     <x-jet-button class="ms-2" wire:click="create" wire:loading.attr="disabled">
-                        {{ __('Save') }}
+                        {{ __('Create') }}
                     </x-jet-button>
                 @endif
             </x-slot>
@@ -97,7 +95,7 @@
         <!-- Delete User Confirmation Modal -->
         <x-jet-dialog-modal wire:model="modalConfirmDeleteVisible">
             <x-slot name="title">
-                {{ __('Delete Transaction') }}
+                {{ __('Delete Title') }}
             </x-slot>
 
             <x-slot name="content">

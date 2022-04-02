@@ -11,6 +11,7 @@ class UserPermission extends Model
 
     protected $fillable = [
         'role',
+        'route_url',
         'route_name'
     ];
 
@@ -33,6 +34,9 @@ class UserPermission extends Model
                     ->where('route_url', $routeName)
                     ->first();
             
+            if($userRole == 'super_admin'){
+                return true;
+            }
             return $model ? true : false;
         }catch(\Throwable $th){
             return false;
